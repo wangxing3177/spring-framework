@@ -290,8 +290,11 @@ configure(allprojects) { project ->
 			cacheChangingModulesFor 0, "seconds"
 		}
 		repositories {
-			mavenCentral()
-			maven { url "https://repo.spring.io/libs-spring-framework-build" }
+//			mavenCentral()  //表示使用maven中心仓库
+//			maven { url "https://repo.spring.io/libs-spring-framework-build" }
+			//https://maven.aliyun.com/repository/public 为最新地址，https://maven.aliyun.com/nexus/content/groups/public 为旧地址
+			maven { url "https://maven.aliyun.com/repository/public" } //使用阿里云的固定地址，下载速度会快一些
+			maven { url "https://maven.aliyun.com/repository/spring" }
 		}
 	}
 	configurations.all {
@@ -418,11 +421,11 @@ configure(rootProject) {
 		def projectDirs = allprojects.collect { it.projectDir } + "${rootDir}/buildSrc"
 		projectDirs.forEach { dir ->
 			[ 'bin', 'build', 'out', '.settings' ]
-				.collect { rootPath.relativize(new File(dir, it).toPath()) }
-				.forEach { source.exclude "$it/**" }
+					.collect { rootPath.relativize(new File(dir, it).toPath()) }
+					.forEach { source.exclude "$it/**" }
 			[ '.classpath', '.project' ]
-				.collect { rootPath.relativize(new File(dir, it).toPath()) }
-				.forEach { source.exclude "$it" }
+					.collect { rootPath.relativize(new File(dir, it).toPath()) }
+					.forEach { source.exclude "$it" }
 		}
 	}
 
